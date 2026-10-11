@@ -14,6 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 10;
+  boot.consoleLogLevel = 2;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -186,6 +187,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
+    powerManagement.enable = true;
     open = true; # Use the open-source kernel module
     nvidiaSettings = true;
     # temp fix for incompatible with linux 7.2
