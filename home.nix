@@ -23,8 +23,6 @@
     nix-weather
     p7zip
     yubikey-manager
-    
-
     # gui software
     google-chrome
     netease-cloud-music-gtk
@@ -133,5 +131,11 @@
     };
   };
 
-  home.stateVersion = "26.05";
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    pinentry.package = pkgs.pinentry-qt;
+  };
+
+  home.stateVersion = "26.05"; # DO NOT MODIFY!
 }
