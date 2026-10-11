@@ -128,7 +128,7 @@
     enable = true;
     enableCompletion = true;
     initExtra = ''
-
+      export EDITOR="code"
     '';
     shellAliases = {
       ls = "eza";
