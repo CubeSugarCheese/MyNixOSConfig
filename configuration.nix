@@ -137,6 +137,11 @@
     hack-font
     jetbrains-mono
     maple-mono.variable
+    source-han-sans  # 思源黑体
+    source-han-serif
+    # windows fonts
+    vista-fonts-chs
+    corefonts
   ];
 
   # 简单配置一下 fontconfig 字体顺序，以免 fallback 到不想要的字体
