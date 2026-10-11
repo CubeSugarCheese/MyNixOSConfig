@@ -115,6 +115,7 @@
     wl-clipboard
     mission-center
   ];
+  environment.variables.EDITOR = "code";
 
   virtualisation.waydroid.enable = true;
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
