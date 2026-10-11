@@ -187,7 +187,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     open = true; # Use the open-source kernel module
     nvidiaSettings = true;
     # temp fix for incompatible with linux 7.2
