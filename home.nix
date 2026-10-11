@@ -23,6 +23,7 @@
     nix-weather
     p7zip
     yubikey-manager
+    gnupg
     # gui software
     google-chrome
     netease-cloud-music-gtk
@@ -63,16 +64,14 @@
   programs.git = {
     enable = true;
     signing = {
-      key = "${config.home.homeDirectory}/.ssh/catalycat.pub";
+      key = "E5B4A6DF824508E68D05F163453509314E993365";
       signByDefault = true;
+      format = "openpgp";
     };
     settings = {
       user = {
         name = "catalycat";
         email = "me@catalycat.rs";
-      };
-      gpg = {
-        format = "ssh";
       };
     };
   };
@@ -86,6 +85,12 @@
       IdentityFile = "~/.ssh/catalycat";
       IPQoS = "none";
     };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    pinentry.package = pkgs.pinentry-qt;
   };
 
   programs.starship = {
@@ -129,12 +134,6 @@
       ls = "eza";
       rebuild = "sudo nixos-rebuild switch --flake $HOME/workbench/MyNixOSConfig";
     };
-  };
-
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    pinentry.package = pkgs.pinentry-qt;
   };
 
   home.stateVersion = "26.05"; # DO NOT MODIFY!
