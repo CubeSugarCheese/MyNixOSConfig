@@ -2,7 +2,7 @@
 
 {
   imports = [
-
+    inputs.codex-desktop-linux.homeManagerModules.default
   ];
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
@@ -21,6 +21,8 @@
     p7zip
     yubikey-manager
     gnupg
+    claude-code
+    codex
     # gui software
     google-chrome
     netease-cloud-music-gtk
@@ -33,8 +35,7 @@
     github-desktop
     motrix
     yubioath-flutter
-    claude-code
-    codex
+    kdePackages.kcalc
     # language enviroment
     ## nix
     nixd
@@ -150,6 +151,11 @@
       ls = "eza";
       rebuild = "sudo nixos-rebuild switch --flake $HOME/workbench/MyNixOSConfig";
     };
+  };
+
+  programs.codexDesktopLinux = {
+    enable = true;
+    linuxFeatures = [ "read-aloud" "ui-tweaks" ];
   };
 
   home.stateVersion = "26.05"; # DO NOT MODIFY!
