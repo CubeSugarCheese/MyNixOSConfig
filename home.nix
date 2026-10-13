@@ -14,12 +14,6 @@
     # cli software
     fastfetch
     eza
-    typst
-    nixfmt
-    nixd
-    jdk21
-    python314
-    nodejs
     nix-weather
     p7zip
     yubikey-manager
@@ -36,6 +30,22 @@
     github-desktop
     motrix
     yubioath-flutter
+    # language enviroment
+    ## nix
+    nixd
+    nixfmt
+    ## java
+    jdk25
+    ## python
+    python314
+    ## typst
+    typst
+    ## javascript
+    nodejs_latest
+    ## go
+    go
+    gopls
+    delve
   ];
 
   programs.vscode = {
@@ -55,6 +65,7 @@
       charliermarsh.ruff
       rust-lang.rust-analyzer
       myriad-dreamin.tinymist
+      golang.go
 
       # misc
       editorconfig.editorconfig
