@@ -1,6 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
+  imports = [
+
+  ];
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
 
@@ -30,6 +33,8 @@
     github-desktop
     motrix
     yubioath-flutter
+    claude-code
+    codex
     # language enviroment
     ## nix
     nixd
