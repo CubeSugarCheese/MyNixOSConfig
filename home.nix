@@ -21,7 +21,6 @@
   home.packages = with pkgs; [
     # cli software
     fastfetch
-    eza
     nix-weather
     p7zip
     yubikey-manager
@@ -115,6 +114,16 @@
     pinentry.package = pkgs.pinentry-qt;
   };
 
+  # --wait 让 git commit 等编辑器关闭后再继续
+  home.sessionVariables.EDITOR = "code --wait";
+
+  # 自带 ls/ll/la/lt 等别名
+  programs.eza = {
+    enable = true;
+    git = true;
+    icons = "auto";
+  };
+
   programs.starship = {
     enable = true;
     # 自定义配置
@@ -149,11 +158,7 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    initExtra = ''
-      export EDITOR="code"
-    '';
     shellAliases = {
-      ls = "eza";
       rebuild = "sudo nixos-rebuild switch --flake $HOME/workbench/MyNixOSConfig";
     };
   };

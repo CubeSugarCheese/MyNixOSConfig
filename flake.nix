@@ -9,8 +9,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
-    claude-desktop-nix-flake.url = "github:poeck/claude-desktop-nix-flake";
+    codex-desktop-linux = {
+      url = "github:ilysenko/codex-desktop-linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    claude-desktop-nix-flake = {
+      url = "github:poeck/claude-desktop-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -22,10 +28,11 @@
       ...
     }@inputs:
     {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
       nixosConfigurations = nixpkgs.lib.genAttrs [ "nixos" ] (
         hostName:
         nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
             { networking.hostName = hostName; }
@@ -40,10 +47,6 @@
               home-manager.users.cubic = import ./home.nix;
             }
             claude-desktop-nix-flake.nixosModules.default
-            {
-              nixpkgs.config.allowUnfree = true;
-              programs.claude-desktop.enable = true;
-            }
           ];
         }
       );

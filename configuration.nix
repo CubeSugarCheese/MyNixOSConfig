@@ -10,19 +10,17 @@
 }:
 
 {
-  imports = [
-  ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 10;
+  boot.loader.systemd-boot.configurationLimit = 10; # 防止 /boot 被旧内核塞满
   boot.consoleLogLevel = 2;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  # hostName 由 flake.nix 设置
 
   networking.networkmanager.enable = true;
   networking.nftables.enable = true;
@@ -37,23 +35,12 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "zh_CN.UTF-8";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "zh_CN.UTF-8";
-    LC_IDENTIFICATION = "zh_CN.UTF-8";
-    LC_MEASUREMENT = "zh_CN.UTF-8";
-    LC_MONETARY = "zh_CN.UTF-8";
-    LC_NAME = "zh_CN.UTF-8";
-    LC_NUMERIC = "zh_CN.UTF-8";
-    LC_PAPER = "zh_CN.UTF-8";
-    LC_TELEPHONE = "zh_CN.UTF-8";
-    LC_TIME = "zh_CN.UTF-8";
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
@@ -84,9 +71,6 @@
       "networkmanager"
       "wheel"
     ];
-    packages = with pkgs; [
-
-    ];
   };
 
   programs.partition-manager.enable = true;
@@ -109,6 +93,8 @@
     ];
   };
 
+  programs.claude-desktop.enable = true;
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true; # 提供更快的缓存机制
@@ -127,25 +113,30 @@
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!
-  nix.settings.substituters = [ ];
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    auto-optimise-store = true;
+  };
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
 
   fonts.packages = with pkgs; [
     adwaita-fonts
     noto-fonts-color-emoji
     nerd-fonts.symbols-only
     nerd-fonts.jetbrains-mono
-    noto-fonts-cjk-sans
+    noto-fonts-cjk-sans # 与思源黑体/宋体字形相同，无需重复安装 source-han-*
     noto-fonts-cjk-serif
     source-code-pro
     hack-font
-    jetbrains-mono
     maple-mono.variable
-    source-han-sans # 思源黑体
-    source-han-serif
     # windows fonts
     vista-fonts-chs
     corefonts
@@ -196,7 +187,8 @@
     powerManagement.enable = false;
     open = true; # Use the open-source kernel module
     nvidiaSettings = true;
-    # temp fix for incompatible with linux 7.2
+    # TODO(2026-10): temp fix for incompatible with linux 7.2
+    # nixpkgs 修复后改回 config.boot.kernelPackages.nvidiaPackages.stable
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
       # config.boot.kernelPackages.nvidiaPackages.stable;
       version = "595.99.02";
@@ -219,6 +211,28 @@
     "nvidia"
   ];
   services.pcscd.enable = true;
+  services.udev.packages = [ pkgs.yubikey-personalization ];
+
+  services.fwupd.enable = true;
+  zramSwap.enable = true;
+
+  # 透明压缩 + 减少写入；compress 只对新写入的数据生效
+  fileSystems."/".options = [
+    "compress=zstd"
+    "noatime"
+  ];
+  fileSystems."/home".options = [
+    "compress=zstd"
+    "noatime"
+  ];
+  fileSystems."/nix".options = [
+    "compress=zstd"
+    "noatime"
+  ];
+  services.btrfs.autoScrub = {
+    enable = true;
+    fileSystems = [ "/" ];
+  };
 
   # list all installed packages in /etc/current-system-packages
   environment.etc."current-system-packages".text =
