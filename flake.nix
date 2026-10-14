@@ -17,6 +17,10 @@
       url = "github:poeck/claude-desktop-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -35,7 +39,10 @@
         nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            { networking.hostName = hostName; }
+            { 
+              networking.hostName = hostName;
+              nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
+            }
             ./configuration.nix
             ./hardware-configuration.nix
             ./nix-ld.nix

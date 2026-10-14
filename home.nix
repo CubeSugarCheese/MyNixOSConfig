@@ -5,7 +5,11 @@
   ...
 }:
 
-{
+let
+  rustToolchain = pkgs.rust-bin.stable.latest.default.override {
+    extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
+  };
+in {
   imports = [
     inputs.codex-desktop-linux.homeManagerModules.default
   ];
@@ -56,6 +60,8 @@
     go
     gopls
     delve
+    ## rust
+    rustToolchain
   ];
 
   programs.vscode = {
@@ -114,8 +120,10 @@
     pinentry.package = pkgs.pinentry-qt;
   };
 
-  # --wait 让 git commit 等编辑器关闭后再继续
-  home.sessionVariables.EDITOR = "code --wait";
+  home.sessionVariables = { 
+    EDITOR = "code --wait";
+    RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
+  };
 
   # 自带 ls/ll/la/lt 等别名
   programs.eza = {

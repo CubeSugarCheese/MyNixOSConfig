@@ -42,6 +42,7 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+  services.displayManager.defaultSession = lib.mkForce "niri";
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -99,6 +100,8 @@
     enable = true;
     nix-direnv.enable = true; # 提供更快的缓存机制
   };
+
+  programs.niri.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
