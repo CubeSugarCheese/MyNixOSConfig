@@ -29,7 +29,6 @@
     codex
     # gui software
     google-chrome
-    netease-cloud-music-gtk
     wechat
     qq
     keyguard
@@ -40,6 +39,7 @@
     motrix
     yubioath-flutter
     kdePackages.kcalc
+    splayer-next
     # language enviroment
     ## nix
     nixd
