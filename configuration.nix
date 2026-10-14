@@ -109,9 +109,6 @@
     mission-center
   ];
 
-  virtualisation.waydroid.enable = true;
-  virtualisation.waydroid.package = pkgs.waydroid-nftables;
-
   system.stateVersion = "26.05"; # DO NOT MODIFY!
 
   nix.settings = {
