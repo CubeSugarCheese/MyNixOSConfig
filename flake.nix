@@ -10,6 +10,7 @@
     };
 
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+    claude-desktop-nix-flake.url = "github:poeck/claude-desktop-nix-flake";
   };
 
   outputs =
@@ -17,6 +18,7 @@
       self,
       nixpkgs,
       home-manager,
+      claude-desktop-nix-flake,
       ...
     }@inputs:
     {
@@ -29,11 +31,18 @@
             { networking.hostName = hostName; }
             ./configuration.nix
             ./hardware-configuration.nix
-            home-manager.nixosModules.home-manager {
+            ./nix-ld.nix
+            home-manager.nixosModules.home-manager
+            {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit inputs; };
               home-manager.users.cubic = import ./home.nix;
+            }
+            claude-desktop-nix-flake.nixosModules.default
+            {
+              nixpkgs.config.allowUnfree = true;
+              programs.claude-desktop.enable = true;
             }
           ];
         }

@@ -1,9 +1,27 @@
 {
   "nodes": {
+    "claude-desktop-nix-flake": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1790632875,
+        "narHash": "sha256-ovY0ssXI4mfcLMa/bS5azndpke3qa0QOOxJgmj7sAXw=",
+        "owner": "poeck",
+        "repo": "claude-desktop-nix-flake",
+        "rev": "55ba585546fe222bf18f391a98c1ee60f79684d2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "poeck",
+        "repo": "claude-desktop-nix-flake",
+        "type": "github"
+      }
+    },
     "codex-desktop-linux": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1791905482,
@@ -60,6 +78,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1782723713,
+        "narHash": "sha256-oPXCU/SSUokcGaJREHibG1CBX3+s/W7orDWQOZDsEeQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b5aa0fbd538984f6e3d201be0005b4463d8b09f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1772773019,
         "narHash": "sha256-E1bxHxNKfDoQUuvriG71+f+s/NT0qWkImXsYZNFFfCs=",
         "owner": "NixOS",
@@ -74,7 +108,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1791456040,
         "narHash": "sha256-H83yz/do+hjOO0uujHyH8RgtIQP2v7Mw+cLwcZK/xKc=",
@@ -92,9 +126,10 @@
     },
     "root": {
       "inputs": {
+        "claude-desktop-nix-flake": "claude-desktop-nix-flake",
         "codex-desktop-linux": "codex-desktop-linux",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "systems": {

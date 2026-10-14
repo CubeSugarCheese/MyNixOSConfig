@@ -2,13 +2,16 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -77,7 +80,10 @@
   users.users."cubic" = {
     isNormalUser = true;
     description = "cubic";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
 
     ];
@@ -95,17 +101,17 @@
   programs.steam = {
     enable = true;
     fontPackages = with pkgs; [
-      noto-fonts-cjk-sans   # 或 noto-fonts-cjk-serif
-      wqy_zenhei            # 文泉驿正黑，经典选择
+      noto-fonts-cjk-sans # 或 noto-fonts-cjk-serif
+      wqy_zenhei # 文泉驿正黑，经典选择
     ];
     extraCompatPackages = with pkgs; [
       proton-ge-bin
     ];
   };
-  
+
   programs.direnv = {
     enable = true;
-    nix-direnv.enable = true;  # 提供更快的缓存机制
+    nix-direnv.enable = true; # 提供更快的缓存机制
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -138,7 +144,7 @@
     hack-font
     jetbrains-mono
     maple-mono.variable
-    source-han-sans  # 思源黑体
+    source-han-sans # 思源黑体
     source-han-serif
     # windows fonts
     vista-fonts-chs
@@ -191,7 +197,8 @@
     open = true; # Use the open-source kernel module
     nvidiaSettings = true;
     # temp fix for incompatible with linux 7.2
-    package = config.boot.kernelPackages.nvidiaPackages.mkDriver { #config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      # config.boot.kernelPackages.nvidiaPackages.stable;
       version = "595.99.02";
       sha256_64bit = "sha256-6HR3lYv3YwcFSTJL1a1slI66btIQ5EAFs+/4SUD24ew=";
       sha256_aarch64 = "sha256-CCqHZTN2KNOZ4yZp2rDcuRJp9pHfRw47k4m4dWnS/2w=";
@@ -199,7 +206,7 @@
       settingsSha256 = "sha256-GYCcnxfKPrTCrsmd25sMyzfC5cqJQJx0c31haooyTYM=";
       persistencedSha256 = "sha256-VyKtF/HdHPQrHHK6opSO69M72LmnGZtauuchj9uuje8=";
     };
-    
+
     prime = {
       sync.enable = true;
       intelBusId = "PCI:0:2:0";
@@ -207,7 +214,10 @@
     };
   };
 
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "nvidia"
+  ];
   services.pcscd.enable = true;
 
   # list all installed packages in /etc/current-system-packages

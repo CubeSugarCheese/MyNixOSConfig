@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -13,7 +18,7 @@
     "Xft.dpi" = 172;
   };
 
-  home.packages = with pkgs;[
+  home.packages = with pkgs; [
     # cli software
     fastfetch
     eza
@@ -155,7 +160,10 @@
 
   programs.codexDesktopLinux = {
     enable = true;
-    linuxFeatures = [ "read-aloud" "ui-tweaks" ];
+    linuxFeatures = [
+      "read-aloud"
+      "ui-tweaks"
+    ];
   };
 
   home.stateVersion = "26.05"; # DO NOT MODIFY!
