@@ -44,6 +44,7 @@ in {
     yubioath-flutter
     kdePackages.kcalc
     splayer-next
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     # language enviroment
     ## nix
     nixd
