@@ -113,6 +113,14 @@ in {
       IdentityFile = "~/.ssh/catalycat";
       IPQoS = "none";
     };
+
+    settings."github.com" = {
+      hostname = "ssh.github.com";
+      user = "git";
+      port = 443;
+      identityFile = "~/.ssh/catalycat";
+      identitiesOnly = true;
+    };
   };
 
   services.gpg-agent = {
