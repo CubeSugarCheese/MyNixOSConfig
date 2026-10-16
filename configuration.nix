@@ -20,6 +20,10 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=2
+  '';
+
   # hostName 由 flake.nix 设置
 
   networking.networkmanager.enable = true;
