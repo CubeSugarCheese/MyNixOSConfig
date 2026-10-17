@@ -8,9 +8,15 @@
 let
   # type: rustToolchain :: Derivation
   rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-    extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
+    extensions = [
+      "rust-src"
+      "rust-analyzer"
+      "clippy"
+      "rustfmt"
+    ];
   };
-in {
+in
+{
   imports = [
     inputs.codex-desktop-linux.homeManagerModules.default
   ];
@@ -130,7 +136,7 @@ in {
     pinentry.package = pkgs.pinentry-qt;
   };
 
-  home.sessionVariables = { 
+  home.sessionVariables = {
     EDITOR = "code --wait";
     RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
   };
@@ -169,7 +175,6 @@ in {
     config = {
       profile = "high-quality";
       ytdl-format = "bestvideo+bestaudio";
-      cache-default = 4000000;
     };
   };
 
@@ -177,7 +182,7 @@ in {
     enable = true;
     enableCompletion = true;
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake $HOME/workbench/MyNixOSConfig";
+      rebuild = ''(cd "$HOME/workbench/MyNixOSConfig" && nix fmt -- ./*.nix && sudo nixos-rebuild switch --flake .)'';
     };
   };
 

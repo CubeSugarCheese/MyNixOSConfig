@@ -42,7 +42,7 @@
         nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            { 
+            {
               networking.hostName = hostName;
               nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
             }

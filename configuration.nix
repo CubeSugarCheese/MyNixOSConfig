@@ -18,8 +18,8 @@
   boot.loader.systemd-boot.configurationLimit = 10; # 防止 /boot 被旧内核塞满
   boot.consoleLogLevel = 2;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Pin the kernel to Linux 7.2
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_7_2;
 
   boot.extraModprobeConfig = ''
     options hid_apple fnmode=2
@@ -47,7 +47,7 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
-  
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
