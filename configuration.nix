@@ -3,6 +3,7 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -112,6 +113,7 @@
     kdePackages.kate
     wl-clipboard
     mission-center
+    inputs.tix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!

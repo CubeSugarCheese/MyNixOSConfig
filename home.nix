@@ -6,6 +6,7 @@
 }:
 
 let
+  # type: rustToolchain :: Derivation
   rustToolchain = pkgs.rust-bin.stable.latest.default.override {
     extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
   };
