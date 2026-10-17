@@ -25,8 +25,7 @@
     options hid_apple fnmode=2
   '';
 
-  # hostName 由 flake.nix 设置
-
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   networking.nftables.enable = true;
   networking.firewall = {

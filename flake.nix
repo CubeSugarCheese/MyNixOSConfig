@@ -37,28 +37,28 @@
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
-      nixosConfigurations = nixpkgs.lib.genAttrs [ "nixos" ] (
-        hostName:
-        nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            {
-              networking.hostName = hostName;
-              nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
-            }
-            ./configuration.nix
-            ./hardware-configuration.nix
-            ./nix-ld.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.cubic = import ./home.nix;
-            }
-            claude-desktop-nix-flake.nixosModules.default
-          ];
-        }
-      );
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+
+        modules = [
+          ./configuration.nix
+          ./hardware-configuration.nix
+          ./nix-ld.nix
+
+          home-manager.nixosModules.home-manager
+          claude-desktop-nix-flake.nixosModules.default
+
+          {
+            nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
+
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
+              users.cubic = import ./home.nix;
+            };
+          }
+        ];
+      };
     };
 }
