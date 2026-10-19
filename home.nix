@@ -25,6 +25,19 @@ in
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
 
+  xdg.configFile."autostart/com.abdownloadmanager.desktop" = {
+    force = true;
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=AB Download Manager
+      Exec=${abDownloadManager}/bin/ab-download-manager --background
+      Icon=ab-download-manager
+      Terminal=false
+      NoDisplay=true
+    '';
+  };
+
   # 设置鼠标指针大小以及字体 DPI（适用于 4K 显示器）
   xresources.properties = {
     "Xcursor.size" = 16;
