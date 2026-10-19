@@ -16,6 +16,7 @@ let
     ];
   };
   cliceExtension = pkgs.callPackage ./packages/clice.nix { };
+  abDownloadManager = pkgs.callPackage ./packages/ab-download-manager.nix { };
 in
 {
   imports = [
@@ -48,7 +49,7 @@ in
     feishu
     libreoffice
     github-desktop
-    motrix
+    abDownloadManager
     yubioath-flutter
     kdePackages.kcalc
     splayer-next
@@ -193,9 +194,9 @@ in
     enable = true;
     enableCompletion = true;
 
-    shellAliases.rebuild = ''
-      (cd "$NH_OS_FLAKE" && nix fmt -- ./*.nix && nh os switch)
-    '';
+    shellAliases = {
+      rebuild = ''(cd "${config.programs.nh.flake}" && nix fmt -- ./*.nix packages/*.nix && nh os switch .)'';
+    };
   };
 
   programs.nh = {
