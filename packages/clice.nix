@@ -1,20 +1,29 @@
-{ lib, vscode-utils, autoPatchelfHook, stdenv }:
+{
+  lib,
+  vscode-utils,
+  autoPatchelfHook,
+  stdenv,
+}:
 
 vscode-utils.buildVscodeMarketplaceExtension {
-  mktplcRef = let
-    sources = {
-      "x86_64-linux" = {
-        arch = "linux-x64";
-        hash = "sha256-h7OnH95uIZvBHBgRBRlOtmrJPoD9aIBlqFXDmxjTVk4=";
+  mktplcRef =
+    let
+      sources = {
+        "x86_64-linux" = {
+          arch = "linux-x64";
+          hash = "sha256-h7OnH95uIZvBHBgRBRlOtmrJPoD9aIBlqFXDmxjTVk4=";
+        };
+        # 如果你也需要其他平台，可以按同样格式添加：
+        # "aarch64-linux" = { arch = "linux-arm64"; hash = "..."; };
       };
-      # 如果你也需要其他平台，可以按同样格式添加：
-      # "aarch64-linux" = { arch = "linux-arm64"; hash = "..."; };
-    };
-  in {
-    name = "clice";
-    publisher = "clice-io";
-    version = "0.1.2026101907";
-  } // sources.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+    in
+    {
+      name = "clice";
+      publisher = "clice-io";
+      version = "0.1.2026101907";
+    }
+    // sources.${stdenv.hostPlatform.system}
+      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   # 其余部分保持不变
   vsixSource = "open-vsx";
