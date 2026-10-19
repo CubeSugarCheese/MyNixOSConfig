@@ -181,20 +181,31 @@ in
     };
   };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    shellAliases = {
-      rebuild = ''(cd "$HOME/workbench/MyNixOSConfig" && nix fmt -- ./*.nix && sudo nixos-rebuild switch --flake .)'';
-    };
-  };
-
   programs.codexDesktopLinux = {
     enable = true;
     linuxFeatures = [
       "read-aloud"
       "ui-tweaks"
     ];
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+
+    shellAliases.rebuild = ''
+      (cd "$NH_OS_FLAKE" && nix fmt -- ./*.nix && nh os switch)
+    '';
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/cubic/workbench/MyNixOSConfig";
+
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 4d --keep 3";
+    };
   };
 
   home.stateVersion = "26.05"; # DO NOT MODIFY!
