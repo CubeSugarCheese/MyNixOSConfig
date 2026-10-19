@@ -1,18 +1,33 @@
-{ lib, vscode-utils }:
+{ lib, vscode-utils, autoPatchelfHook, stdenv }:
 
 vscode-utils.buildVscodeMarketplaceExtension {
-  mktplcRef = {
+  mktplcRef = let
+    sources = {
+      "x86_64-linux" = {
+        arch = "linux-x64";
+        hash = "sha256-h7OnH95uIZvBHBgRBRlOtmrJPoD9aIBlqFXDmxjTVk4=";
+      };
+      # 如果你也需要其他平台，可以按同样格式添加：
+      # "aarch64-linux" = { arch = "linux-arm64"; hash = "..."; };
+    };
+  in {
     name = "clice";
     publisher = "clice-io";
-    version = "0.1.2026071902"; # 请替换为当前的实际版本号
-    # 首次构建时，将此处留空或填入 lib.fakeSha256，Nix 会报错并给出正确哈希
-    sha256 = lib.fakeSha256; 
-  };
+    version = "0.1.2026101907";
+  } // sources.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+
+  # 其余部分保持不变
+  vsixSource = "open-vsx";
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ (lib.getLib stdenv.cc.cc) ];
+  preFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    addAutoPatchelfSearchPath $out/share/vscode/extensions/clice-io.clice/clice/bin
+  '';
 
   meta = {
-    description = "C++ language support powered by clice, a language server built on LLVM/Clang";
+    description = "C++ language support powered by clice";
     homepage = "https://github.com/clice-io/clice";
-    license = lib.licenses.apache; # 请根据项目实际许可证调整
-    platforms = lib.platforms.linux; # 根据你的系统调整，扩展支持多平台
+    license = lib.licenses.asl20;
+    platforms = lib.platforms.linux;
   };
 }
