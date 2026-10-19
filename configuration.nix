@@ -117,6 +117,8 @@
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!
 
+  nix.channel.enable = false;
+
   nix.settings = {
     experimental-features = [
       "nix-command"
