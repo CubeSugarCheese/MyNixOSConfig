@@ -15,6 +15,7 @@ let
       "rustfmt"
     ];
   };
+  cliceExtension = pkgs.callPackage ./packages/clice.nix { };
 in
 {
   imports = [
@@ -74,12 +75,14 @@ in
 
   programs.vscode = {
     enable = true;
+    mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       ms-ceintl.vscode-language-pack-zh-hans
 
       # language support
       jnoortheen.nix-ide
-      llvm-vs-code-extensions.vscode-clangd
+      cliceExtension
+      # llvm-vs-code-extensions.vscode-clangd
       tamasfe.even-better-toml
       dbaeumer.vscode-eslint
       esbenp.prettier-vscode
