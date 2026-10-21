@@ -25,7 +25,9 @@ in
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
 
-  xdg.configFile."autostart/com.abdownloadmanager.desktop" = {
+  # Keep a separate name from the mutable autostart item written by the app.
+  # The app's own "start on boot" setting should remain disabled.
+  xdg.configFile."autostart/ab-download-manager.desktop" = {
     force = true;
     text = ''
       [Desktop Entry]
@@ -47,6 +49,7 @@ in
   home.packages = with pkgs; [
     # cli software
     fastfetch
+    ripgrep
     nix-weather
     p7zip
     yubikey-manager

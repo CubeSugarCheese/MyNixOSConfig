@@ -72,7 +72,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     mkdir -p "$out/lib/ab-download-manager" "$out/bin"
     cp -r bin lib "$out/lib/ab-download-manager/"
     install -Dm644 lib/ABDownloadManager.png \
-      "$out/share/icons/hicolor/256x256/apps/ab-download-manager.png"
+      "$out/share/icons/hicolor/512x512/apps/ab-download-manager.png"
 
     makeWrapper "$out/lib/ab-download-manager/bin/ABDownloadManager" \
       "$out/bin/ab-download-manager" \
@@ -90,9 +90,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     (makeDesktopItem {
       name = "ab-download-manager";
       desktopName = "AB Download Manager";
+      genericName = "Download Manager";
       comment = "Manage and organize downloads";
       exec = "ab-download-manager %U";
       icon = "ab-download-manager";
+      startupWMClass = "com-abdownloadmanager-desktop-AppKt";
       categories = [
         "Network"
         "FileTransfer"
