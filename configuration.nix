@@ -112,7 +112,6 @@
     kdePackages.kate
     wl-clipboard
     mission-center
-    inputs.tix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!

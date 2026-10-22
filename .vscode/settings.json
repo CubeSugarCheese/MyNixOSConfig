@@ -1,4 +1,4 @@
 {
     "nix.enableLanguageServer": true,
-    "nix.serverPath": ["tix", "lsp"]
+    "nix.serverPath": "nixd"
 }
