@@ -64,7 +64,6 @@ in
     keyguard
     hmcl
     feishu
-    libreoffice
     github-desktop
     abDownloadManager
     yubioath-flutter
