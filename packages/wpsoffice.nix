@@ -189,6 +189,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     # Peony is a UKUI file manager integration plugin, not used by Plasma.
     rm "$office/libpeony-wpsprint-menu-plugin.so"
 
+    # The vendor's light dialogs hardcode backgrounds but inherit text colors
+    # from the platform palette. KDE's dark palette makes their labels unreadable.
+    # Use Qt's built-in light palette and style, including in spawned helpers.
+
     # Avoid installing the vendor's generic "misc" command into the user PATH.
     mv "$out/bin/misc" "$out/bin/wps-misc"
     for command in wps wpp et wpspdf wps-misc; do
@@ -207,6 +211,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
         --unset QT_PLUGIN_PATH \
         --unset QT_QPA_PLATFORM_PLUGIN_PATH \
         --unset QML2_IMPORT_PATH \
+        --set QT_QPA_PLATFORMTHEME generic \
+        --set QT_STYLE_OVERRIDE Fusion \
         --set FONTCONFIG_FILE ${fontConfig} \
         --set-default QT_QPA_PLATFORM xcb
     done
