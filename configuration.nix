@@ -141,9 +141,6 @@
     source-code-pro
     hack-font
     maple-mono.variable
-    # windows fonts
-    vista-fonts-chs
-    corefonts
   ];
 
   # 简单配置一下 fontconfig 字体顺序，以免 fallback 到不想要的字体
