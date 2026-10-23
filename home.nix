@@ -17,6 +17,7 @@ let
   };
   cliceExtension = pkgs.callPackage ./packages/clice.nix { };
   abDownloadManager = pkgs.callPackage ./packages/ab-download-manager.nix { };
+  wpsOffice = pkgs.callPackage ./packages/wpsoffice.nix { };
 in
 {
   imports = [
@@ -70,6 +71,7 @@ in
     kdePackages.kcalc
     splayer-next
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
+    wpsOffice
     # language enviroment
     ## nix
     nixd
@@ -99,7 +101,6 @@ in
       # language support
       jnoortheen.nix-ide
       cliceExtension
-      # llvm-vs-code-extensions.vscode-clangd
       tamasfe.even-better-toml
       dbaeumer.vscode-eslint
       esbenp.prettier-vscode
