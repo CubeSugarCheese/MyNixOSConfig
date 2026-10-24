@@ -30,6 +30,11 @@ in
   # The store file is read-only; restore its link if a font manager replaces it.
   xdg.configFile."fontconfig/conf.d/10-hm-fonts.conf".force = true;
 
+  xdg.dataFile."fcitx5/rime/default.custom.yaml".text = ''
+    patch:
+      "menu/page_size": 9
+  '';
+
   # Keep a separate name from the mutable autostart item written by the app.
   # The app's own "start on boot" setting should remain disabled.
   xdg.configFile."autostart/ab-download-manager.desktop" = {
