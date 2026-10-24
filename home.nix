@@ -35,6 +35,16 @@ in
       "menu/page_size": 9
   '';
 
+  # Default to simplified Chinese when entering either pinyin schema.
+  xdg.dataFile."fcitx5/rime/luna_pinyin.custom.yaml".text = ''
+    patch:
+      "switches/@2/reset": 1
+  '';
+  xdg.dataFile."fcitx5/rime/terra_pinyin.custom.yaml".text = ''
+    patch:
+      "switches/@2/reset": 1
+  '';
+
   # Keep a separate name from the mutable autostart item written by the app.
   # The app's own "start on boot" setting should remain disabled.
   xdg.configFile."autostart/ab-download-manager.desktop" = {
