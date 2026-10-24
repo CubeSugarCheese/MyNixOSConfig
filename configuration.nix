@@ -9,7 +9,9 @@
   lib,
   ...
 }:
-
+let
+  personalFonts = pkgs.callPackage ./packages/personal-fonts { };
+in
 {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -110,8 +112,8 @@
   environment.systemPackages = with pkgs; [
     git
     kdePackages.kate
-    wl-clipboard
     mission-center
+    papirus-icon-theme
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!
@@ -141,6 +143,7 @@
     source-code-pro
     hack-font
     maple-mono.variable
+    personalFonts
   ];
 
   # 简单配置一下 fontconfig 字体顺序，以免 fallback 到不想要的字体
@@ -170,6 +173,9 @@
     fcitx5 = {
       waylandFrontend = true;
       addons = with pkgs; [
+        fcitx5-fluent
+        fcitx5-rime
+        rime-data
         qt6Packages.fcitx5-chinese-addons
       ];
     };

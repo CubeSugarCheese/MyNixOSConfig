@@ -26,6 +26,10 @@ in
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
 
+  fonts.fontconfig.enable = true;
+  # The store file is read-only; restore its link if a font manager replaces it.
+  xdg.configFile."fontconfig/conf.d/10-hm-fonts.conf".force = true;
+
   # Keep a separate name from the mutable autostart item written by the app.
   # The app's own "start on boot" setting should remain disabled.
   xdg.configFile."autostart/ab-download-manager.desktop" = {
@@ -211,7 +215,7 @@ in
     enableCompletion = true;
 
     shellAliases = {
-      rebuild = ''(cd "${config.programs.nh.flake}" && nix fmt -- ./*.nix packages/*.nix && nh os switch .)'';
+      rebuild = ''(cd "${config.programs.nh.flake}" && nix fmt && nh os switch .)'';
     };
   };
 
