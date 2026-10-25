@@ -193,6 +193,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     # from the platform palette. KDE's dark palette makes their labels unreadable.
     # Use Qt's built-in light palette and style, including in spawned helpers.
 
+    # WPS bundles its own Qt and Fcitx input-context plugin. Select that plugin
+    # explicitly so XWayland windows can use Fcitx5/Rime directly, while native
+    # Wayland applications keep the desktop's input-method defaults.
+
     # Avoid installing the vendor's generic "misc" command into the user PATH.
     mv "$out/bin/misc" "$out/bin/wps-misc"
     for command in wps wpp et wpspdf wps-misc; do
@@ -213,6 +217,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
         --unset QML2_IMPORT_PATH \
         --set QT_QPA_PLATFORMTHEME generic \
         --set QT_STYLE_OVERRIDE Fusion \
+        --set QT_IM_MODULE fcitx \
         --set FONTCONFIG_FILE ${fontConfig} \
         --set-default QT_QPA_PLATFORM xcb
     done
