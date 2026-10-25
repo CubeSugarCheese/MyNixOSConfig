@@ -133,6 +133,15 @@ in
     options = "--delete-older-than 14d";
   };
 
+  # Use static CJK fonts everywhere, including NixOS' default fonts and Steam.
+  # Older Qt applications can render variable fonts at the wrong weight.
+  nixpkgs.overlays = [
+    (_final: prev: {
+      noto-fonts-cjk-sans = prev.noto-fonts-cjk-sans.override { static = true; };
+      noto-fonts-cjk-serif = prev.noto-fonts-cjk-serif.override { static = true; };
+    })
+  ];
+
   fonts.packages = with pkgs; [
     adwaita-fonts
     noto-fonts-color-emoji
