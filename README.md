@@ -65,6 +65,11 @@ let
 in
 localPkgs.ab-download-manager
 ```
+```sh
+nix-build --expr "let pkgs = import <nixpkgs> {config.allowUnfree = true;}; localPkgs = pkgs.callPackage ./packages {}; in localPkgs.clice"
+# or
+nix build --impure --expr "let pkgs = import <nixpkgs> {config.allowUnfree = true;}; localPkgs = pkgs.callPackage ./packages {}; in localPkgs.clice"
+```
 
 也可以直接调用单个包定义，例如 `pkgs.callPackage ./packages/clice.nix { }`。
 单个包支持通常的 `override` / `overrideAttrs`。
