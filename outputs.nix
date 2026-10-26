@@ -1,6 +1,5 @@
 {
   nixpkgs,
-  nixpkgs-kde,
   home-manager,
   codex-desktop-linux,
   claude-desktop-nix-flake,
@@ -10,15 +9,11 @@
 }:
 let
   system = "x86_64-linux";
-  pkgs-kde = nixpkgs-kde.legacyPackages.${system};
   pkgs = import nixpkgs {
     inherit system;
     config.allowUnfree = true;
     overlays = [
       rust-overlay.overlays.default
-      (final: prev: {
-        kdePackages = pkgs-kde.kdePackages;
-      })
     ];
   };
   localPkgs = pkgs.callPackage ./packages { };

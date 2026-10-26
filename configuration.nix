@@ -43,12 +43,9 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Use KDE Plasma's X11 session and an X11 login screen.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = false;
-  services.displayManager.sddm.settings.Users.RememberLastSession = false;
-  services.displayManager.defaultSession = "plasmax11";
-  services.desktopManager.plasma6.enable = true;
+  # Enable the Cinnamon Desktop Environment
+  services.xserver.desktopManager.cinnamon.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -110,8 +107,6 @@ in
 
   environment.systemPackages = with pkgs; [
     git
-    kdePackages.kate
-    kdePackages.kwin-x11
     mission-center
     papirus-icon-theme
   ];
