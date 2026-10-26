@@ -2,7 +2,8 @@
   description = "My personal NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # github:NixOS/nixpkgs/nixos-26.05
+    # Plasma 6.7.5 retains the X11 session removed in Plasma 6.8.
+    nixpkgs.url = "github:NixOS/nixpkgs/e7439b6b14ad3cc35d05608ebca9bce01a25f5f8";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -11,10 +12,6 @@
 
     codex-desktop-linux = {
       url = "github:ilysenko/codex-desktop-linux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    linuxqq-wayland-fix = {
-      url = "github:SHORiN-KiWATA/linuxqq-wayland-fix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-desktop-nix-flake = {
@@ -51,10 +48,7 @@
           claude-desktop-nix-flake.nixosModules.default
 
           {
-            nixpkgs.overlays = [
-              inputs.rust-overlay.overlays.default
-              inputs.linuxqq-wayland-fix.overlays.default
-            ];
+            nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
 
             home-manager = {
               useGlobalPkgs = true;

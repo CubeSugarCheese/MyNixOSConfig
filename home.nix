@@ -18,15 +18,6 @@ let
   cliceExtension = pkgs.callPackage ./packages/clice.nix { };
   abDownloadManager = pkgs.callPackage ./packages/ab-download-manager.nix { };
   wpsOffice = pkgs.callPackage ./packages/wpsoffice.nix { };
-  qqWaylandFix = pkgs.linuxqq-wayland-fix.overrideAttrs (old: {
-    # Keep native pixels on HiDPI KDE outputs instead of upscaling a logical-size capture.
-    postPatch = (old.postPatch or "") + ''
-      substituteInPlace src/qq-screenshot-helper.c \
-        --replace-fail '"native-resolution", g_variant_new_boolean(FALSE)' \
-                       '"native-resolution", g_variant_new_boolean(TRUE)'
-    '';
-  });
-  qqWaylandCommand = "${qqWaylandFix}/bin/linuxqq-wayland-fix --enable-wayland-ime=true --wayland-text-input-version=3 %U";
 in
 {
   imports = [
@@ -38,30 +29,6 @@ in
   fonts.fontconfig.enable = true;
   # The store file is read-only; restore its link if a font manager replaces it.
   xdg.configFile."fontconfig/conf.d/10-hm-fonts.conf".force = true;
-
-  # The Codex launcher reads these flags before choosing its default X11 backend.
-  xdg.configFile."codex-desktop/electron-flags.conf".text = ''
-    --ozone-platform=wayland
-    --enable-wayland-ime=true
-    --wayland-text-input-version=3
-  '';
-
-  # Keep the usual QQ menu entry, but launch it with the Wayland compatibility fixes.
-  xdg.desktopEntries.qq = {
-    name = "QQ";
-    exec = qqWaylandCommand;
-    icon = "${pkgs.qq}/share/icons/hicolor/512x512/apps/qq.png";
-    categories = [
-      "Network"
-      "InstantMessaging"
-    ];
-    settings.StartupWMClass = "QQ";
-  };
-  xdg.desktopEntries.linuxqq-wayland-fix = {
-    name = "QQ (Wayland Fix)";
-    exec = qqWaylandCommand;
-    noDisplay = true;
-  };
 
   xdg.dataFile."fcitx5/rime/default.custom.yaml".text = ''
     patch:
@@ -114,7 +81,6 @@ in
     google-chrome
     wechat
     qq
-    qqWaylandFix
     keyguard
     hmcl
     feishu
@@ -240,10 +206,6 @@ in
         uosc
         sponsorblock
       ];
-      # 启用 wayland
-      mpv-unwrapped = pkgs.mpv-unwrapped.override {
-        waylandSupport = true;
-      };
     };
     # mpv 自身配置
     config = {
