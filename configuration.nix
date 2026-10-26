@@ -220,6 +220,10 @@ in
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  
+  services.xserver.screenSection = ''
+    Option "NoFlip" "true"
+  '';
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];
 
