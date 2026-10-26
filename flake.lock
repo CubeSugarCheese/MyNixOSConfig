@@ -135,6 +135,26 @@
         "type": "github"
       }
     },
+    "linuxqq-wayland-fix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792770968,
+        "narHash": "sha256-uxTwR3P0DejaLGiB/O+5AfsMHlFWbOIrW3WJFVlQL+E=",
+        "owner": "SHORiN-KiWATA",
+        "repo": "linuxqq-wayland-fix",
+        "rev": "56a13c678b1637d25e656aa92f1a718deda11017",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SHORiN-KiWATA",
+        "repo": "linuxqq-wayland-fix",
+        "type": "github"
+      }
+    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -194,6 +214,7 @@
         "claude-desktop-nix-flake": "claude-desktop-nix-flake",
         "codex-desktop-linux": "codex-desktop-linux",
         "home-manager": "home-manager",
+        "linuxqq-wayland-fix": "linuxqq-wayland-fix",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
         "rust-overlay": "rust-overlay"

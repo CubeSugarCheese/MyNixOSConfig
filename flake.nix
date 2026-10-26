@@ -13,6 +13,10 @@
       url = "github:ilysenko/codex-desktop-linux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    linuxqq-wayland-fix = {
+      url = "github:SHORiN-KiWATA/linuxqq-wayland-fix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +51,10 @@
           claude-desktop-nix-flake.nixosModules.default
 
           {
-            nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
+            nixpkgs.overlays = [
+              inputs.rust-overlay.overlays.default
+              inputs.linuxqq-wayland-fix.overlays.default
+            ];
 
             home-manager = {
               useGlobalPkgs = true;
