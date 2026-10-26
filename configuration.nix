@@ -111,6 +111,7 @@ in
   environment.systemPackages = with pkgs; [
     git
     kdePackages.kate
+    kdePackages.kwin-x11
     mission-center
     papirus-icon-theme
   ];

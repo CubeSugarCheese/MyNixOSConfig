@@ -9,13 +9,16 @@
   ...
 }:
 let
-  pkgs-kde = import nixpkgs-kde { system = "x86_64-linux"; };
+  system = "x86_64-linux";
+  pkgs-kde = nixpkgs-kde.legacyPackages.${system};
   pkgs = import nixpkgs {
-    system = "x86_64-linux";
+    inherit system;
     config.allowUnfree = true;
     overlays = [
       rust-overlay.overlays.default
-      (final: prev: { kdePackages = pkgs-kde.kdePackages; })
+      (final: prev: {
+        kdePackages = pkgs-kde.kdePackages;
+      })
     ];
   };
   localPkgs = pkgs.callPackage ./packages { };
