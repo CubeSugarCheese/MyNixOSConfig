@@ -13,11 +13,6 @@ let
     config.allowUnfree = true;
     overlays = [
       rust-overlay.overlays.default
-      # Use static CJK fonts for both system packages and exported local packages.
-      (_final: prev: {
-        noto-fonts-cjk-sans = prev.noto-fonts-cjk-sans.override { static = true; };
-        noto-fonts-cjk-serif = prev.noto-fonts-cjk-serif.override { static = true; };
-      })
     ];
   };
   localPkgs = pkgs.callPackage ./packages { };
