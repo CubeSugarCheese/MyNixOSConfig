@@ -2,8 +2,9 @@
   description = "My personal NixOS configuration";
 
   inputs = {
-    # Plasma 6.7.5 retains the X11 session removed in Plasma 6.8.
-    nixpkgs.url = "github:NixOS/nixpkgs/e7439b6b14ad3cc35d05608ebca9bce01a25f5f8";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # 固定 KDE 到 6.7.5
+    nixpkgs-kde.url = "github:NixOS/nixpkgs/e7439b6b14ad3cc35d05608ebca9bce01a25f5f8";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
