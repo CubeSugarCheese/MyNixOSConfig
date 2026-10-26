@@ -1,12 +1,13 @@
+{ llm-agents }:
 {
   config,
   pkgs,
-  inputs,
   ...
 }:
 
 let
-  # type: rustToolchain :: Derivation
+  localPkgs = pkgs.callPackage ./packages { };
+
   rustToolchain = pkgs.rust-bin.stable.latest.default.override {
     extensions = [
       "rust-src"
@@ -15,14 +16,8 @@ let
       "rustfmt"
     ];
   };
-  cliceExtension = pkgs.callPackage ./packages/clice.nix { };
-  abDownloadManager = pkgs.callPackage ./packages/ab-download-manager.nix { };
-  wpsOffice = pkgs.callPackage ./packages/wpsoffice.nix { };
 in
 {
-  imports = [
-    inputs.codex-desktop-linux.homeManagerModules.default
-  ];
   home.username = "cubic";
   home.homeDirectory = "/home/cubic";
 
@@ -53,7 +48,7 @@ in
       [Desktop Entry]
       Type=Application
       Name=AB Download Manager
-      Exec=${abDownloadManager}/bin/ab-download-manager --background
+      Exec=${localPkgs.ab-download-manager}/bin/ab-download-manager --background
       Icon=ab-download-manager
       Terminal=false
       NoDisplay=true
@@ -76,6 +71,7 @@ in
     gnupg
     claude-code
     codex
+    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     android-tools
     # gui software
     google-chrome
@@ -85,12 +81,11 @@ in
     hmcl
     feishu
     github-desktop
-    abDownloadManager
     yubioath-flutter
     kdePackages.kcalc
     splayer-next
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
-    wpsOffice
+    localPkgs.ab-download-manager
+    localPkgs.wpsoffice
     # language enviroment
     ## nix
     nixd
@@ -119,7 +114,7 @@ in
 
       # language support
       jnoortheen.nix-ide
-      cliceExtension
+      localPkgs.clice
       tamasfe.even-better-toml
       dbaeumer.vscode-eslint
       esbenp.prettier-vscode

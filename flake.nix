@@ -25,39 +25,5 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      claude-desktop-nix-flake,
-      ...
-    }@inputs:
-    {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
-
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-
-        modules = [
-          ./configuration.nix
-          ./hardware-configuration.nix
-          ./nix-ld.nix
-
-          home-manager.nixosModules.home-manager
-          claude-desktop-nix-flake.nixosModules.default
-
-          {
-            nixpkgs.overlays = [ inputs.rust-overlay.overlays.default ];
-
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              users.cubic = import ./home.nix;
-            };
-          }
-        ];
-      };
-    };
+  outputs = inputs: import ./outputs.nix inputs;
 }

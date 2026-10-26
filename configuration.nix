@@ -3,14 +3,13 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
-  inputs,
   config,
   pkgs,
   lib,
   ...
 }:
 let
-  personalFonts = pkgs.callPackage ./packages/personal-fonts { };
+  localPkgs = pkgs.callPackage ./packages { };
 in
 {
   # Use the systemd-boot EFI boot loader.
@@ -109,8 +108,6 @@ in
     nix-direnv.enable = true; # 提供更快的缓存机制
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = with pkgs; [
     git
     kdePackages.kate
@@ -135,15 +132,6 @@ in
     options = "--delete-older-than 14d";
   };
 
-  # Use static CJK fonts everywhere, including NixOS' default fonts and Steam.
-  # Older Qt applications can render variable fonts at the wrong weight.
-  nixpkgs.overlays = [
-    (_final: prev: {
-      noto-fonts-cjk-sans = prev.noto-fonts-cjk-sans.override { static = true; };
-      noto-fonts-cjk-serif = prev.noto-fonts-cjk-serif.override { static = true; };
-    })
-  ];
-
   fonts.packages = with pkgs; [
     adwaita-fonts
     noto-fonts-color-emoji
@@ -154,7 +142,7 @@ in
     source-code-pro
     hack-font
     maple-mono.variable
-    personalFonts
+    localPkgs.personal-fonts
   ];
 
   # 简单配置一下 fontconfig 字体顺序，以免 fallback 到不想要的字体
@@ -220,7 +208,7 @@ in
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  
+
   services.xserver.screenSection = ''
     Option "NoFlip" "true"
   '';
