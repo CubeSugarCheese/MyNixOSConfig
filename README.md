@@ -17,12 +17,6 @@
   中直接引用和安装其中的 `dsh` 包。
 - `packages/default.nix`：用 `callPackage` 定义普通属性集，集中提供本地包。
 
-外部依赖只在连接层使用，不通过 `specialArgs` 或 `extraSpecialArgs` 传给所有模块。
-Home Manager 继续使用系统的 `pkgs`。`llm-agents` 的 `dsh` 保留上游自己的包集合和锁定，
-避免因强制统一 nixpkgs 而改变其构建依赖。
-
-系统使用外部创建的 `pkgs`，因此 `allowUnfree` 等 nixpkgs 配置应在 `outputs.nix`
-的 `import nixpkgs` 参数中设置，不再通过 NixOS 的 `nixpkgs.config` 重复设置。
 
 本地包通过单独的局部变量 `localPkgs = pkgs.callPackage ./packages { };` 引用
 可以按以下方式分别引用包：
@@ -72,12 +66,4 @@ nix build --impure --expr "let pkgs = import <nixpkgs> {config.allowUnfree = tru
 ```
 
 也可以直接调用单个包定义，例如 `pkgs.callPackage ./packages/clice.nix { }`。
-单个包支持通常的 `override` / `overrideAttrs`。
-预编译的 x86_64 软件的平台支持仍取决于各包定义。
 
-构建时才需要的源码、归档和二进制继续使用包内的固定哈希 fetcher，
-无需添加为 flake input。当前锁定的 NixOS 已自动配置 nixpkgs registry 和 `NIX_PATH`，
-因此 `<nixpkgs>` 与系统使用同一份 nixpkgs，关闭 channels 后也可使用传统入口。
-
-依赖版本仍由 `flake.lock` 管理。本次结构重构没有更新依赖；nixpkgs 继续固定到
-保留 Plasma X11 会话的版本。
