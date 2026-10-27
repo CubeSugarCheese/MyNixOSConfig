@@ -100,6 +100,42 @@ in
       fi
     '';
 
+  # Cinnamon rewrites applet settings, so update the writable JSON in place.
+  # https://forums.linuxmint.com/viewtopic.php?t=424754
+  home.activation.configureCinnamonMenuKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.python3}/bin/python3 - "${config.xdg.configHome}/cinnamon/spices/menu@cinnamon.org" <<'PY'
+    import json
+    from pathlib import Path
+    import shutil
+    import sys
+
+    for path in Path(sys.argv[1]).glob("*.json"):
+        settings = json.loads(path.read_text())
+        binding = settings.get("overlay-key")
+        if binding is None or binding.get("value") == "Hyper_L::":
+            continue
+        backup = path.with_suffix(".json.before-xcape")
+        if not backup.exists():
+            shutil.copy2(path, backup)
+        binding["value"] = "Hyper_L::"
+        path.write_text(json.dumps(settings, ensure_ascii=False, indent=4) + "\n")
+    PY
+  '';
+
+  # Leave Super+Space to the input method while retaining the layout keys.
+  dconf.settings."org/cinnamon/desktop/keybindings/wm" = {
+    switch-input-source = [ "XF86Keyboard" ];
+    switch-input-source-backward = [ "<Shift>XF86Keyboard" ];
+  };
+
+  services.xcape = {
+    enable = true;
+    mapExpression = {
+      Super_L = "Hyper_L";
+      Super_R = "Hyper_L";
+    };
+  };
+
   # 设置鼠标指针大小以及字体 DPI（适用于 4K 显示器）
   xresources.properties = {
     "Xcursor.size" = 16;
@@ -110,6 +146,7 @@ in
     # cli software
     fastfetch
     ripgrep
+    xcape
     nix-weather
     p7zip
     yubikey-manager
