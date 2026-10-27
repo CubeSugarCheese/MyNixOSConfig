@@ -90,7 +90,6 @@ in
     enable = true;
     fontPackages = with pkgs; [
       noto-fonts-cjk-sans # 或 noto-fonts-cjk-serif
-      wqy_zenhei # 文泉驿正黑，经典选择
     ];
     extraCompatPackages = with pkgs; [
       proton-ge-bin
