@@ -1,6 +1,7 @@
 { llm-agents }:
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -55,6 +56,50 @@ in
     '';
   };
 
+  # Variety rewrites its preferences and autostart entry, so seed writable
+  # files once rather than linking them to read-only Nix store files.
+  home.activation.initVariety =
+    let
+      initialConfig = pkgs.writeText "variety.conf" ''
+        change_on_start = True
+        change_enabled = True
+        change_interval = 86400
+        internet_enabled = True
+        wallpaper_display_mode = gnome-zoom
+        quota_enabled = True
+        quota_size = 500
+        clock_enabled = False
+        quotes_enabled = False
+        smart_enabled = False
+        sync_enabled = False
+        stats_enabled = False
+
+        [sources]
+        src1 = True|bing|https://www.bing.com/gallery/
+        src2 = False|favorites|The Favorites folder
+        src3 = False|fetched|The Fetched folder
+      '';
+      autostartEntry = pkgs.writeText "variety.desktop" ''
+        [Desktop Entry]
+        Type=Application
+        Name=Variety
+        Exec=${pkgs.variety}/bin/variety
+        Icon=variety
+        Terminal=false
+        X-GNOME-Autostart-Delay=10
+      '';
+    in
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -e "${config.xdg.configHome}/variety/variety.conf" ]; then
+        run ${pkgs.coreutils}/bin/install -Dm644 ${initialConfig} \
+          "${config.xdg.configHome}/variety/variety.conf"
+      fi
+      if [ ! -e "${config.xdg.configHome}/autostart/variety.desktop" ]; then
+        run ${pkgs.coreutils}/bin/install -Dm644 ${autostartEntry} \
+          "${config.xdg.configHome}/autostart/variety.desktop"
+      fi
+    '';
+
   # 设置鼠标指针大小以及字体 DPI（适用于 4K 显示器）
   xresources.properties = {
     "Xcursor.size" = 16;
@@ -71,7 +116,6 @@ in
     gnupg
     claude-code
     codex
-    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     android-tools
     # gui software
     google-chrome
@@ -82,8 +126,9 @@ in
     feishu
     github-desktop
     yubioath-flutter
-    kdePackages.kcalc
     splayer-next
+    variety
+    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     localPkgs.ab-download-manager
     localPkgs.wpsoffice
     # language enviroment
