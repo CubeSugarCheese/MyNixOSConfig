@@ -26,6 +26,7 @@ in
       ab-download-manager
       clice
       personal-fonts
+      plangothic
       wpsoffice
       ;
   };

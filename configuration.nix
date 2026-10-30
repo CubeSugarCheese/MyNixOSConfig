@@ -108,6 +108,7 @@ in
     git
     mission-center
     papirus-icon-theme
+    diodon
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!
@@ -137,7 +138,9 @@ in
     source-code-pro
     hack-font
     maple-mono.variable
+
     localPkgs.personal-fonts
+    localPkgs.plangothic
   ];
 
   # 简单配置一下 fontconfig 字体顺序，以免 fallback 到不想要的字体

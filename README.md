@@ -43,6 +43,7 @@ nh os switch .
 nix build .#ab-download-manager
 nix build .#clice
 nix build .#personal-fonts
+nix build .#plangothic
 nix build .#wpsoffice
 ```
 
