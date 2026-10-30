@@ -13,8 +13,8 @@ let
     config.allowUnfree = true;
     overlays = [
       rust-overlay.overlays.default
-      import ./overlays/cinnamon.nix
-      import ./overlays/gpaste.nix
+      (import ./overlays/cinnamon.nix)
+      (import ./overlays/gpaste.nix)
     ];
   };
   localPkgs = pkgs.callPackage ./packages { };
