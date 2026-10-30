@@ -108,7 +108,7 @@ in
     git
     mission-center
     papirus-icon-theme
-    diodon
+    clipse
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!

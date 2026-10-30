@@ -1,12 +1,11 @@
 {
   nixpkgs,
-  home-manager,
-  codex-desktop-linux,
-  claude-desktop-nix-flake,
   rust-overlay,
-  llm-agents,
+  home-manager,
+  claude-desktop-nix-flake,
+  codex-desktop-linux,
   ...
-}:
+}@inputs:
 let
   system = "x86_64-linux";
   pkgs = import nixpkgs {
@@ -45,15 +44,26 @@ in
 
   nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
     modules = [
-      { nixpkgs.pkgs = pkgs; }
-      (import ./nixos.nix {
-        inherit
-          home-manager
-          codex-desktop-linux
-          claude-desktop-nix-flake
-          llm-agents
-          ;
-      })
+      {
+        nixpkgs.pkgs = pkgs;
+        imports = [
+          ./configuration.nix
+          ./hardware-configuration.nix
+          ./nix-ld.nix
+          home-manager.nixosModules.home-manager
+          claude-desktop-nix-flake.nixosModules.default
+        ];
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.cubic = {
+            imports = [
+              (import ./home.nix inputs)
+              codex-desktop-linux.homeManagerModules.default
+            ];
+          };
+        };
+      }
     ];
   };
 }

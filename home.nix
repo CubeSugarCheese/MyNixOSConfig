@@ -1,4 +1,4 @@
-{ llm-agents }:
+inputs:
 {
   config,
   lib,
@@ -165,7 +165,7 @@ in
     yubioath-flutter
     splayer-next
     variety
-    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     localPkgs.ab-download-manager
     localPkgs.wpsoffice
     # language enviroment
