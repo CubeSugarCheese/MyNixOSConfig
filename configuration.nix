@@ -231,6 +231,10 @@ in
     fileSystems = [ "/" ];
   };
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "cubic" ];
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+
   # list all installed packages in /etc/current-system-packages
   environment.etc."current-system-packages".text =
     let
