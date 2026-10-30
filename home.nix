@@ -318,5 +318,39 @@ in
     };
   };
 
+  systemd.user.services.whisper-api = {
+    Unit = {
+      Description = "Local Whisper OpenAI-compatible transcription API";
+      After = [ "network.target" ];
+    };
+
+    Service = {
+      Type = "simple";
+      WorkingDirectory = "%h/workbench/whisper";
+      ExecStart = "%h/workbench/whisper/serve-api.sh";
+
+      Environment = [
+        "PATH=/run/current-system/sw/bin:/etc/profiles/per-user/cubic/bin"
+        "WHISPER_MODEL=small"
+        "WHISPER_DEVICE=cuda"
+        "WHISPER_HOST=127.0.0.1"
+        "WHISPER_PORT=8000"
+        "WHISPER_API_KEY=local-whisper"
+      ];
+
+      EnvironmentFile = [
+        "-%h/workbench/whisper/.env.api"
+      ];
+
+      Restart = "on-failure";
+      RestartSec = 5;
+      TimeoutStopSec = 30;
+    };
+
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   home.stateVersion = "26.05"; # DO NOT MODIFY!
 }
