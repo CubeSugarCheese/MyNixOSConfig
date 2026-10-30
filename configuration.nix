@@ -104,11 +104,12 @@ in
     nix-direnv.enable = true; # 提供更快的缓存机制
   };
 
+  programs.gpaste.enable = true;
+
   environment.systemPackages = with pkgs; [
     git
     mission-center
     papirus-icon-theme
-    clipse
   ];
 
   system.stateVersion = "26.05"; # DO NOT MODIFY!
