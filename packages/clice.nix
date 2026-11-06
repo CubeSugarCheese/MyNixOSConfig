@@ -20,7 +20,7 @@ vscode-utils.buildVscodeMarketplaceExtension {
     {
       name = "clice";
       publisher = "clice-io";
-      version = "0.1.2026101907";
+      version = "0.1.2026110509";
     }
     // sources.${stdenv.hostPlatform.system}
       or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
