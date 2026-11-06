@@ -188,7 +188,7 @@ in
     rustToolchain
   ];
 
-  programs.vscode = {
+  programs.vscodium = {
     enable = true;
     mutableExtensionsDir = false;
     profiles.default.extensions = with pkgs.vscode-extensions; [
