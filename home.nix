@@ -306,6 +306,10 @@ in
     shellAliases = {
       rebuild = ''(cd "${config.programs.nh.flake}" && nix fmt && nh os switch .)'';
     };
+
+    bashrcExtra = ''
+      bind 'set enable-bracketed-paste off'
+    '';
   };
 
   programs.nh = {
