@@ -11,7 +11,7 @@ vscode-utils.buildVscodeMarketplaceExtension {
       sources = {
         "x86_64-linux" = {
           arch = "linux-x64";
-          hash = "sha256-h7OnH95uIZvBHBgRBRlOtmrJPoD9aIBlqFXDmxjTVk4=";
+          hash = "sha256-7sWxW1LueqBu+bQMahTwedyAiaxdst7ayNQeeGsmbYA=";
         };
         # 如果你也需要其他平台，可以按同样格式添加：
         # "aarch64-linux" = { arch = "linux-arm64"; hash = "..."; };
