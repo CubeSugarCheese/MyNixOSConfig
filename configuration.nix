@@ -213,6 +213,9 @@ in
   '';
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", MODE="0666"
+  '';
 
   services.fwupd.enable = true;
   zramSwap.enable = true;
