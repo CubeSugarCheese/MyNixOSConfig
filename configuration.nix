@@ -105,6 +105,7 @@ in
   };
 
   programs.gpaste.enable = true;
+  programs.localsend.enable = true;
 
   environment.systemPackages = with pkgs; [
     git
